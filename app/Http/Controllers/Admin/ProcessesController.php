@@ -15,12 +15,12 @@ class ProcessesController extends Controller
     {
         $ticketCode = $request->post('ticketCode', null);
         $clientId = $request->post('clientId');
-        $employeId = auth()->id();
+        $employeeId = $request->post('employeeId');
         $service = Service::findOrFail($request->post('serviceId'));
 
         $process = new Process();
         $process->has_survey = false;
-        $process->employee_id = $employeId;
+        $process->employee_id = $employeeId;
         $process->client_id = $clientId;
         $process->ticket_timestamp = Carbon::now()->toDateTimeString();
         $process->ticket_code = $ticketCode;
@@ -31,7 +31,8 @@ class ProcessesController extends Controller
         $processService->service_id = $service->id;
         $processService->save();
 
-        return response()->json($process->with('process_service')->get());
+
+        return response()->json(['result' => 'ok', 'code' => $process->id]);
     }
 
     public function initProcess(Request $request)
@@ -40,7 +41,7 @@ class ProcessesController extends Controller
         $process = Process::findOrFail($request->post('processId'));
         $process->process_init_timestamp = Carbon::now()->toDateTimeString();
         $process->save();
-        return response()->json($process);
+        return response()->json(['result' => 'Process initiated']);
     }
 
     public function endProcess(Request $request)
@@ -48,6 +49,6 @@ class ProcessesController extends Controller
         $process = Process::findOrFail($request->post('processId'));
         $process->proces_end_timestamp = Carbon::now()->toDateTimeString();
         $process->save();
-        return response()->json($process);
+        return response()->json(['result' => 'Process ended']);
     }
 }
