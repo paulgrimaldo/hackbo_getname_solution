@@ -34,6 +34,7 @@
       Author: BootstrapMade.com
       License: https://bootstrapmade.com/license/
     ======================================================= -->
+    @stack('styles')
 </head>
 
 <body>
@@ -150,6 +151,6 @@ Header
 
 <!-- Template Main Javascript File -->
 <script src="{{asset('js/main.js')}}"></script>
-
+@stack('scripts')
 </body>
 </html>
