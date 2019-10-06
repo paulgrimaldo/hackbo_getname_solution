@@ -400,8 +400,8 @@
       'name' => 'Example',
     ),
     'encryption' => NULL,
-    'username' => NULL,
-    'password' => NULL,
+    'username' => '984e6571a71482',
+    'password' => '691afad2268f20',
     'sendmail' => '/usr/sbin/sendmail -bs',
     'markdown' => 
     array (

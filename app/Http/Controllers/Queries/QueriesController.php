@@ -17,21 +17,23 @@ class QueriesController extends Controller
             ->select(DB::raw('u.id, AVG (s.attention_score) as score_avg, SUM(s.attention_score) as score_sum, COUNT(*)'))
             ->groupBy('u.id')
             //->avg('s.attention_score');
-                ->get();
-            QueriesController::roundCollection($partialResult);
-            return response()->json(QueriesController::countPerAvg($partialResult));
-        
+            ->get();
+        QueriesController::roundCollection($partialResult);
+        return response()->json(QueriesController::countPerAvg($partialResult));
+
     }
 
-    private static function roundCollection($collection) {
+    private static function roundCollection($collection)
+    {
         foreach ($collection as $item) {
             $item->score_avg = round($item->score_avg);
         }
     }
 
-    private static function countPerAvg($collection) {
+    private static function countPerAvg($collection)
+    {
         $r = [
-            0,0,0,0,0
+            0, 0, 0, 0, 0
         ];
 
         foreach ($collection as $item) {
@@ -49,7 +51,8 @@ class QueriesController extends Controller
         return $result;
     }
 
-    public function getReportOfProcesses($employee_id) {
+    public function getReportOfProcesses($employee_id)
+    {
         $partialResult = DB::table('users as u')
             ->join('processes as p', 'u.id', '=', 'p.employee_id')
             ->join('surveys as s', 'p.id', '=', 's.process_id')
@@ -61,7 +64,8 @@ class QueriesController extends Controller
         return response()->json(QueriesController::normalizeReportOfProcesses($partialResult));
     }
 
-    public static function normalizeReportOfProcesses($collection) {
+    public static function normalizeReportOfProcesses($collection)
+    {
         $result = [];
 
         foreach ($collection as $item) {
@@ -74,7 +78,7 @@ class QueriesController extends Controller
 
         return $result;
     }
-    
+
 }
 
 ?>

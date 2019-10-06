@@ -6,6 +6,7 @@ use App\Models\Process;
 use App\Models\ProcessService;
 use App\Models\Service;
 use App\Models\SoundAnalysis;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -88,6 +89,24 @@ class ProcessesController extends Controller
             $soundAnalysis->emotion = $jsonResult['emotion'];
             $soundAnalysis->save();
         }
+
+        //send mail
+
+        $userId = $process->client_id;
+        $user = User::find($userId);
+
+        $data = [
+            'link' => route('encuestas.fill', ['userId' => $userId, 'processId' => $process->id]),
+            'name' => $user->name
+        ];
+
+        \Mail::send('emails.survey', $data, function ($message) use ($user) {
+
+            $message->from('team.getName@getname.com', 'Team GetName Leader');
+
+            $message->to($user->email)->subject('Gracias por tu preferencia!');
+
+        });
 
         return response()->json(['result' => 'Process ended successfully']);
     }
