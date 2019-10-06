@@ -17,4 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('guest')->post('/generate-process', 'Admin\ProcessesController@generateProcess');
+
+Route::get('hola', function () {
+    return 1;
+});
+Route::group(['middleware' => ['guest']], function () {
+    Route::post('generate-process', 'Admin\ProcessesController@generateProcess');
+    Route::post('init-process', 'Admin\ProcessesController@initProcess');
+    Route::post('end-process', 'Admin\ProcessesController@endProcess');
+});
