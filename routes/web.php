@@ -24,3 +24,6 @@ Route::get('mis-procesos/{process}', "Client\ProcessesController@show")->name('p
 Route::post('encuesta', 'Client\SurveyController@store')->name('survey.store');
 
 Route::get('/admin', 'Admin\AdminController@loadAdmin');
+
+
+Route::get('/faq', 'Faq\FaqController@loadFaqPage')->name('faq');

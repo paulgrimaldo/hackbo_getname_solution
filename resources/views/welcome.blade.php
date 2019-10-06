@@ -55,6 +55,7 @@ Header
                 <li class="active"><a href="#intro">Home</a></li>
                 <li><a href="#about">About Us</a></li>
                 <li><a href="#contact">Contact Us</a></li>
+                <li><a href="{{ route('faq') }}">FAQ</a>
             </ul>
         </nav><!-- .main-nav -->
 
