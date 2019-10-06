@@ -58,6 +58,13 @@
                     accedes a
                     beneficios como usuario de nuestro servicio
                 </div>
+                <div class="col-12" align="center">
+                    <a
+                            role="button"
+                            class="btn btn-success"
+                            href="{{route('encuestas.fill',['userId'=>auth()->id(),'processId'=>$process->id])}}">Ingresar
+                        encuesta</a>
+                </div>
             </div>
         @endif
     </div>

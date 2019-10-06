@@ -64,8 +64,8 @@
                         <label for="comment"
                                class="col-md-4 col-form-label text-md-right">{{ __('Ingrese un comentario acerca de la atención recibida') }}</label>
                         <div class="col-md-6">
-                            <textarea class="form-control" name="comment" id="comment">
-                            </textarea>
+                            <textarea class="form-control" name="comment"
+                                      id="comment"></textarea>
                             @if ($errors->has('comment'))
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('comment') }}</strong>

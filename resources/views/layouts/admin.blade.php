@@ -53,9 +53,12 @@ Header
                 <li><a href="{{route('reportes.empleados')}}">Analizar empleados</a></li>
                 <li><a href="{{route('reportes.emotions')}}">Analizar reacciones de clientes</a></li>
                 <li><a href="#">Cuenta</a></li>
+                <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout').submit()" >Salir</a></li>
             </ul>
         </nav><!-- .main-nav -->
-
+        <form id="logout" action="{{route('logout')}}" method="post">
+            @csrf
+        </form>
     </div>
 </header><!-- #header -->
 

@@ -51,9 +51,13 @@ Header
             <ul>
                 <li><a href="{{route('procesos.index')}}">Mis procesos</a></li>
                 <li><a href="#">Cuenta</a></li>
+                <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout').submit()">Salir</a>
+                </li>
             </ul>
         </nav><!-- .main-nav -->
-
+        <form id="logout" action="{{route('logout')}}" method="post">
+            @csrf
+        </form>
     </div>
 </header><!-- #header -->
 

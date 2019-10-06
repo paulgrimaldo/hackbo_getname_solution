@@ -27,3 +27,5 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('queries/get-general-bar-chard-data', 'Queries\QueriesController@getGeneralBarChartData');
 
 Route::get('queries/get-report-of-processes/{employee_id}', 'Queries\QueriesController@getReportOfProcesses');
+
+Route::get('queries/get-cognitive-report-of-processes/{employee_id}', 'Queries\QueriesController@getCognitiveReportOfProcesses');

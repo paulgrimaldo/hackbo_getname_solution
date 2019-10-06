@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Models\EmailTemplate;
+use App\Models\IncentiveMessage;
 use App\Models\Process;
 use App\Models\Survey;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -25,6 +28,7 @@ class SurveyController extends Controller
 
     public function store(Request $request)
     {
+        $messageFromScore = $this->getMessageFromScore($request->post('attention_score'));
         $wasAttentionOk = 0;
         if ($request->has('was_attention_ok')) {
             $wasAttentionOk = $request->post('was_attention_ok');
@@ -44,6 +48,37 @@ class SurveyController extends Controller
         $survey->save();
         $process->has_survey = true;
         $process->save();
+
+
+        $user = User::find($process->client_id);
+
+        $data = [
+            'name' => $user->name,
+            'scoreMessage' => $messageFromScore
+        ];
+
+        \Mail::send('emails.survey_filled', $data, function ($message) use ($user) {
+
+            $message->from('team.getName@getname.com', 'Team GetName Leader');
+
+            $message->to($user->email)->subject('Atencion de servicio al cliente Banco Team.GetName();');
+
+        });
+
+
         return view('client.survey_done');
+    }
+
+
+    private function getMessageFromScore($score)
+    {
+        $template = EmailTemplate::where('score', '=', $score)->first()->mail_body;
+        $incentives = IncentiveMessage::all();
+        $incentiveMessage = null;
+        foreach ($incentives as $incentive) {
+            $incentiveMessage = $incentiveMessage . " " . $incentive->message . "<br>";
+        }
+        $incentiveMessage = str_replace(":priv", $incentiveMessage, $template);
+        return $incentiveMessage;
     }
 }

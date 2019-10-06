@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Queries;
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,6 +78,66 @@ class QueriesController extends Controller
         }
 
         return $result;
+    }
+
+    public function getCognitiveReportOfProcesses($employee_id)
+    {
+        $partialResult = DB::table('users as u')
+            ->join('processes as p', 'u.id', '=', 'p.employee_id')
+            ->join('sound_analysis as sa', 'p.id', '=', 'sa.process_id')
+            ->where('u.role', '=', "EMPLOYEE")
+            ->where('u.id', '=', $employee_id)
+            ->where('sa.emotion', '<>', 'trust')
+            ->where('sa.emotion', '<>', 'anticipation')
+            ->where('sa.emotion', '<>', 'surprise')
+            ->where('sa.emotion', '<>', 'fear')
+            ->select(DB::raw('sa.emotion, COUNT(*) as count'))
+            ->groupBy('sa.emotion')
+            ->orderBy('sa.emotion')
+            //->avg('s.attention_score');
+            ->get();
+
+        return response()->json((object)array(
+            'name' => User::find($employee_id)->name,
+            'emotions' => QueriesController::normalizeCognitiveInfoOfEmployee($partialResult)
+        ));
+        //dd($partialResult);
+    }
+
+    private static function normalizeCognitiveInfoOfEmployee($collection)
+    {
+        $result = [];
+        foreach ($collection as $item) {
+            array_push($result, (object)array(
+                'emotion' => $item->emotion,
+                'count' => $item->count,
+            ));
+        }
+        return QueriesController::inflateCognitiveInfoOfEmployee($result);
+    }
+
+    public static function inflateCognitiveInfoOfEmployee($emotions)
+    {
+        $allEmotions = ['anger', 'disgust', 'sadness', 'joy'];
+        foreach ($allEmotions as $emotionToFind) {
+            if (!QueriesController::existEmotion($emotions, $emotionToFind)) {
+                array_push($emotions, (object)array(
+                    'emotion' => $emotionToFind,
+                    'count' => 0,
+                ));
+            }
+        }
+        return $emotions;
+    }
+
+    public static function existEmotion($emotions, $emotionToFind)
+    {
+        foreach ($emotions as $emotion) {
+            if ($emotion->emotion == $emotionToFind) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

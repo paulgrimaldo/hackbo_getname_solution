@@ -27,12 +27,7 @@
 </header>
 <main>
     <h3>Gracias {{$name}} por usar nuestros servicios, cuentanos como fue tu experiencia con nosotros</h3>
-    <p>Al rellenar estos formularios puedes recibir beneficios por el uso de nuestro servicio y a nosotros nos ayuda
-        a mejorar el servicio que te brindamos
-    </p>
-    <p>Para calificar ingresa al siguiente link</p>
-
-    <a href="{{$link}}" class="button">Ingresar</a>
+    <p>{!! $scoreMessage!!}</p>
 </main>
 </body>
 </html>
