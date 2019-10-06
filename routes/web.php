@@ -22,7 +22,8 @@ Route::get('encuesta/{userId}/{processId}', 'Client\SurveyController@getSurveyVi
 Route::get('mis-procesos', "Client\ProcessesController@listMyProcesses")->name('procesos.index');
 Route::get('mis-procesos/{process}', "Client\ProcessesController@show")->name('procesos.show');
 Route::post('encuesta', 'Client\SurveyController@store')->name('survey.store');
-
 Route::get('/admin', 'Admin\AdminController@loadAdmin')->name('admin');
 Route::get('/admin/reporte/empleados', 'Admin\AdminController@loadEmpleados')->name('reportes.empleados');
 Route::get('/admin/reporte/emociones', 'Admin\AdminController@loadEmociones')->name('reportes.emotions');
+Route::get('/admin', 'Admin\AdminController@loadAdmin');
+Route::get('/faq', 'Faq\FaqController@loadFaqPage')->name('faq');

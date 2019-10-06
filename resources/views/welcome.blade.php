@@ -56,6 +56,7 @@ Header
                 <li><a href="#about">About Us</a></li>
                 <li><a href="#contact">Contact Us</a></li>
                 <li><a href="{{route('login')}}">Login</a></li>
+                <li><a href="{{ route('faq') }}">FAQ</a>
             </ul>
         </nav><!-- .main-nav -->
 
