@@ -23,3 +23,5 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('init-process', 'Admin\ProcessesController@initProcess');
     Route::post('end-process', 'Admin\ProcessesController@endProcess');
 });
+
+Route::get('queries/get-general-bar-chard-data', 'Queries\QueriesController@getGeneralBarChartData');
