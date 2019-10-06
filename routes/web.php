@@ -18,5 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('fill_survey/{userId}/{processId}', 'Client\SurveyController@getSurveyView');
-Route::post('store/fill-survey', 'Client\SurveyController@store')->name('fill_survey.store');
+Route::get('encuesta/{userId}/{processId}', 'Client\SurveyController@getSurveyView');
+Route::get('mis-procesos', "Client\ProcessesController@listMyProcesses")->name('procesos.index');
+Route::get('mis-procesos/{process}', "Client\ProcessesController@show")->name('procesos.show');
+Route::post('encuesta', 'Client\SurveyController@store')->name('survey.store');
+
+Route::get('/admin', 'Admin\AdminController@loadAdmin');

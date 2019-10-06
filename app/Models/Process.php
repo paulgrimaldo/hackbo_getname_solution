@@ -31,6 +31,8 @@ class Process extends Eloquent
 {
     public $timestamps = false;
 
+    protected $table = 'processes';
+
     protected $casts = [
         'has_survey' => 'bool',
         'employee_id' => 'int',
@@ -53,19 +55,10 @@ class Process extends Eloquent
         'client_id'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'employee_id');
-    }
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'process_service', 'service_id');
-    }
-
-    public function survey()
-    {
-        return $this->hasOne(Survey::class, 'id');
+        return $this->belongsToMany(Service::class, 'process_service', 'process_id');
     }
 
     public function hasSurvey()
