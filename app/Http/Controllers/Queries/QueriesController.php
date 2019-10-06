@@ -48,6 +48,32 @@ class QueriesController extends Controller
 
         return $result;
     }
+
+    public function getReportOfProcesses($employee_id) {
+        $partialResult = DB::table('users as u')
+            ->join('processes as p', 'u.id', '=', 'p.employee_id')
+            ->join('surveys as s', 'p.id', '=', 's.process_id')
+            ->where('u.role', '=', "EMPLOYEE")
+            ->where('u.id', '=', $employee_id)
+            ->select('s.attention_score', 's.timestamp')
+            //->avg('s.attention_score');
+            ->get();
+        return response()->json(QueriesController::normalizeReportOfProcesses($partialResult));
+    }
+
+    public static function normalizeReportOfProcesses($collection) {
+        $result = [];
+
+        foreach ($collection as $item) {
+            $arrayItem = [
+                $item->timestamp,
+                $item->attention_score
+            ];
+            array_push($result, $arrayItem);
+        }
+
+        return $result;
+    }
     
 }
 
